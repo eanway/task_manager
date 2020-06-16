@@ -1,8 +1,31 @@
 """
 Task manager
-Organize, manage, and prioritize tasks
+Organize, manage, and prioritize tasks.
 """
 
-task_name = "code"
-task_due_date = "6/15/2020"
-task_duration = 8
+
+class Task(object):
+    """
+    A task that needs to be completed by a due date.
+    """
+
+    version = "0.1"
+
+    def __init__(self, name, due_date, hours):
+        self.name = name
+        self.due_date = due_date
+        self.hours = hours
+
+    def print_details(self):
+        """Print the details of the task."""
+        print(
+            "Task {} is due on {} and will take {} hours".format(
+                self.name,
+                self.due_date,
+                self.hours
+            )
+        )
+
+
+my_task = Task("code", "6/15/2020", 8)
+my_task.print_details()
