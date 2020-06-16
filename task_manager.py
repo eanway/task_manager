@@ -4,6 +4,8 @@ Organize, manage, and prioritize tasks.
 """
 import math
 
+import numpy
+
 
 class Task(object):
     """
@@ -28,6 +30,7 @@ class Task(object):
         )
 
     def chunk_hours(self, minimum_hours=1.0):
+        """Chunk the task hours into blocks with a minimum size."""
         if isinstance(self.hours, list):
             self.sum_hours()
 
@@ -38,6 +41,7 @@ class Task(object):
         self.hours = chunks
 
     def sum_hours(self):
+        """Sum the chunks of time into a single value."""
         self.hours = sum(self.hours)
 
 
@@ -48,7 +52,9 @@ class Schedule(object):
 
     version = "0.1"
 
-    def __init__(self, tasks=[]):
+    def __init__(self, tasks=None):
+        if tasks is None:
+            tasks = []
         self.tasks = tasks
 
     def print_details(self):
@@ -61,6 +67,26 @@ class Schedule(object):
         for task in self.tasks:
             task.chunk_hours(minimum_time)
 
+    def sum_tasks(self):
+        """Sum each task duration into a single value."""
+        for task in self.tasks:
+            task.sum_hours()
+
+
+class DayPlanner(object):
+    """
+    A day planner of tasks to complete.
+    """
+
+    def __init__(self, date, minimum_hours=1.0, day_length=8.0):
+        self.date = date
+        self.time_blocks = numpy.arange(0, day_length, minimum_hours)
+
+    def print_plan(self):
+        print(self.date)
+        for time_block in self.time_blocks:
+            print("{}".format(time_block))
+
 
 my_task = Task("code", "6/15/2020", 8)
 my_task.chunk_hours(0.75)
@@ -69,3 +95,5 @@ my_schedule = Schedule([my_task, my_second_task])
 my_schedule.print_details()
 my_schedule.chunk_tasks()
 my_schedule.print_details()
+my_dayPlanner = DayPlanner("6/15/2020")
+my_dayPlanner.print_plan()
