@@ -28,4 +28,7 @@ class Task(object):
 
 
 my_task = Task("code", "6/15/2020", 8)
-my_task.print_details()
+my_second_task = Task("eat", "6/16/2020", 16)
+schedule = [my_task, my_second_task]
+for task in schedule:
+    task.print_details()
