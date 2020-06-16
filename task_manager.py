@@ -26,9 +26,21 @@ class Task(object):
             )
         )
 
+class Schedule(object):
+    """
+    A list of tasks.
+    """
+
+    version = "0.1"
+
+    def __init__(self, tasks=[]):
+        self.tasks = tasks
+
+    def print_details(self):
+        for task in self.tasks:
+            task.print_details()
 
 my_task = Task("code", "6/15/2020", 8)
 my_second_task = Task("eat", "6/16/2020", 16)
-schedule = [my_task, my_second_task]
-for task in schedule:
-    task.print_details()
+my_schedule = Schedule([my_task, my_second_task])
+my_schedule.print_details()
