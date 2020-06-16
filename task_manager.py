@@ -2,7 +2,7 @@
 Task manager
 Organize, manage, and prioritize tasks.
 """
-import copy
+import math
 
 
 class Task(object):
@@ -27,6 +27,14 @@ class Task(object):
             )
         )
 
+    def chunk_hours(self, minimum_hours=1):
+        if not isinstance(self.hours, list):
+            number_of_chunks = math.floor(self.hours / minimum_hours)
+            remainder = self.hours % minimum_hours
+            chunks = [minimum_hours] * number_of_chunks
+            chunks[-1] += remainder
+            self.hours = chunks
+
 
 class Schedule(object):
     """
@@ -46,15 +54,12 @@ class Schedule(object):
     def chunk_tasks(self, minimum_time=1):
         """Chunk the tasks into shorter durations."""
         for task in self.tasks:
-            while task.hours > 2 * minimum_time:
-                new_task = copy.copy(task)
-                new_task.hours = minimum_time
-                self.tasks.append(new_task)
-                task.hours -= minimum_time
+            task.chunk_hours(minimum_time)
 
 
 my_task = Task("code", "6/15/2020", 8)
+my_task.chunk_hours(0.75)
 my_second_task = Task("eat", "6/16/2020", 16)
 my_schedule = Schedule([my_task, my_second_task])
-my_schedule.chunk_tasks(0.75)
+my_schedule.chunk_tasks()
 my_schedule.print_details()
