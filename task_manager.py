@@ -190,9 +190,18 @@ class Schedule(object):
                 ))
 
 
-my_task = Task("code", "6/15/2020", 6)
+def create_task(name, due_date, hours, priority=0, triage_report=None):
+    return {
+        "name": name,
+        "due_date": datetime.datetime.strptime(due_date, "%m/%d/%Y").date(),
+        "hours": hours,
+        "priority": priority,
+        "triage_report": triage_report
+    }
+
+my_task = create_task("code", "6/15/2020", 6)
 my_second_task = Task("eat", "6/16/2020", 10)
 my_third_task = Task("sleep", "6/16/2020", 8)
-my_todo = TodoList([my_task, my_second_task, my_third_task])
+my_todo = TodoList([my_second_task, my_third_task])
 my_schedule = Schedule(my_todo, start_date="6/14/2020")
 my_schedule.print_schedule()
