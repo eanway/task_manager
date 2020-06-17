@@ -45,7 +45,7 @@ class Task(object):
         self.hours = sum(self.hours)
 
 
-class Schedule(object):
+class TodoList(object):
     """
     A list of tasks.
     """
@@ -62,6 +62,19 @@ class Schedule(object):
         for task in self.tasks:
             task.print_details()
 
+
+class Schedule(object):
+    """
+    A schedule of tasks to complete.
+    """
+
+    def __init__(self, todo_list, minimum_hours=1.0, day_length=8.0):
+        self.todo_list = todo_list
+        self.time_blocks = numpy.arange(0, day_length, minimum_hours)
+
+    def print_todo(self):
+        self.todo_list.print_details()
+
     def chunk_tasks(self, minimum_time=1.0):
         """Chunk the tasks into shorter durations."""
         for task in self.tasks:
@@ -73,27 +86,8 @@ class Schedule(object):
             task.sum_hours()
 
 
-class DayPlanner(object):
-    """
-    A day planner of tasks to complete.
-    """
-
-    def __init__(self, date, minimum_hours=1.0, day_length=8.0):
-        self.date = date
-        self.time_blocks = numpy.arange(0, day_length, minimum_hours)
-
-    def print_plan(self):
-        print(self.date)
-        for time_block in self.time_blocks:
-            print("{}".format(time_block))
-
-
 my_task = Task("code", "6/15/2020", 8)
-my_task.chunk_hours(0.75)
 my_second_task = Task("eat", "6/16/2020", 16)
-my_schedule = Schedule([my_task, my_second_task])
-my_schedule.print_details()
-my_schedule.chunk_tasks()
-my_schedule.print_details()
-my_dayPlanner = DayPlanner("6/15/2020")
-my_dayPlanner.print_plan()
+my_todo = TodoList([my_task, my_second_task])
+my_schedule = Schedule(my_todo)
+my_schedule.print_todo()
